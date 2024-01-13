@@ -1,24 +1,16 @@
 from typing import Optional
-<<<<<<< HEAD
 import httpx
 import requests
 
 from infrastructure import weather_cache
-=======
 
 import requests
->>>>>>> 99fed2e8bedd398183e9a9d60ec559a7e9c6c044
-
 api_key: Optional[str] = None
 
 
 def get_latitude_longitude(city: str, country: str) -> list:
     q = f'{city},{country}'
     get_latitude_longitude_url = f'https://api.openweathermap.org/geo/1.0/direct?q={q}&appid={api_key}'
-<<<<<<< HEAD
-
-=======
->>>>>>> 99fed2e8bedd398183e9a9d60ec559a7e9c6c044
     resp = requests.get(get_latitude_longitude_url)
     resp.raise_for_status()
 
@@ -29,7 +21,6 @@ def get_latitude_longitude(city: str, country: str) -> list:
     return lat_lon
 
 
-<<<<<<< HEAD
 async def get_report(city: str, country: str, units: str) -> dict:
     forecast = weather_cache.get_weather(city, country, units)
     if not forecast:
@@ -46,17 +37,3 @@ async def get_report(city: str, country: str, units: str) -> dict:
 
     return forecast
 
-=======
-def get_report(city: str, country: str, units: str) -> dict:
-    latitude, longitude = get_latitude_longitude(city, country)
-
-    get_weather_data = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={api_key}&units={units}"
-
-    resp = requests.get(get_weather_data)
-    resp.raise_for_status()
-
-    data = resp.json()
-    forcast = data['main']
-
-    return forcast
->>>>>>> 99fed2e8bedd398183e9a9d60ec559a7e9c6c044
