@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+#json api key
+settings_tem.json
+
 # Distribution / packaging
 .Python
 build/
