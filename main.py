@@ -1,12 +1,17 @@
+
 import fastapi
 import uvicorn
+from starlette.requests import Request
+from starlette.staticfiles import StaticFiles
+from starlette.templating import Jinja2Templates
 
-api = fastapi.FastApi()
-
+api = fastapi.FastAPI()
+templates = Jinja2Templates("templates")
+api.mount('/static', StaticFiles(directory='static'))
 
 @api.get("/")
-def index():
-    return "Hello Weather App!"
+def index(request: Request):
+    return templates.TemplateResponse("home/index.html", {'request': request})
 
 
 if __name__ == "__main__":
