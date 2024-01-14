@@ -7,6 +7,7 @@ from infrastructure import weather_cache
 
 import requests
 
+from models.valiadating_data import validate_units
 from models.validation_error import ValidationError
 
 api_key: Optional[str] = None
@@ -51,24 +52,3 @@ async def get_report(city: str, country: str, units: str) -> dict:
     except (httpx.HTTPError, ValidationError, KeyError) as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-def validate_units(
-        city: str, country: str, units: str
-) -> Tuple[str, str, str]:
-    city = city.lower().strip()
-
-    if not country:
-        country = 'BGD'
-
-    if len(country) not in (2, 3):
-        error = f'Invalid country code: {country}. It must be a two or three-letter abbreviation.'
-        raise ValidationError(status_code=400, error_msg=error)
-
-    valid_units = {'standard', 'metric', 'imperial'}
-    if units:
-        units = units.strip().lower()
-        if units not in valid_units:
-            error = f"Invalid units '{units}'. It must be one of {valid_units}."
-            raise ValidationError(status_code=400, error_msg=error)
-
-    return city, country, units
