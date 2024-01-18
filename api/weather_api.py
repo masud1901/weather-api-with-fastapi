@@ -20,12 +20,12 @@ async def weather(loc: Location = Depends(),
         return fastapi.Response(content=ve.error_msg, status_code=ve.status_code)
 
 
-@router.get('/api/reports', name='all_reports')
+@router.get('/api/reports', name='all_reports',response_model=List[Report])
 def report_get() -> List[Report]:
     return report_service.get_report()
 
 
-@router.post('/api/reports', name='all_reports',status_code=201)
+@router.post('/api/reports', name='all_reports',status_code=201,response_model=Report)
 def reports_post(report_submittal: ReportSubmittal) -> object:
     d = report_submittal.description
     loc = report_submittal.location
